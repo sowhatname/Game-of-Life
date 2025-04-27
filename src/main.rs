@@ -45,7 +45,7 @@ fn find_neighbors(matrix: &Vec<Vec<i32>>, row: usize, col: usize) -> Vec<i32> {
     neighbors
 }
 
-fn living_person(neighbors: &Vec<i32>) -> usize {
+fn count_living_person(neighbors: &Vec<i32>) -> usize {
     neighbors.iter()
         .filter(|&status| *status == 1)
         .count()
@@ -56,12 +56,13 @@ fn update(matrix: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     for i in 0..matrix.len() {
         for j in 0..matrix[0].len() {
             let neighbors = find_neighbors(&matrix, i, j);
+            let living_person = count_living_person(&neighbors);
             if matrix[i][j] == 1 {
-                if living_person(&neighbors) < 2 || living_person(&neighbors) > 3{
+                if living_person < 2 || living_person > 3{
                     new_matrix[i][j] = 0;  //人口稀少或者人口拥挤 死了
                 }
             } else {
-                if living_person(&neighbors) == 3 {
+                if living_person == 3 {
                     new_matrix[i][j] = 1;
                 }
             }
